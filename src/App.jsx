@@ -41,6 +41,8 @@ function App() {
     try {
       setOpen(true);
       setIsSubmitting(true);
+      setIsSuccess(false);
+      setErrorMessage('');
       console.log(formData);
       const response = await fetch(`${API_BASE_URL}/api/applications`, {
         method: "POST",
@@ -56,10 +58,13 @@ function App() {
         setIsSuccess(true);
       } else {
         setIsSuccess(false);
-        setErrorMessage(data.message);
+        setErrorMessage(data.message ?? 'Something went wrong. Please try again.');
       }
     } catch (error) {
       console.error("Error submitting application:", error);
+      setIsSubmitting(false);
+      setIsSuccess(false);
+      setErrorMessage('Could not reach the server. Please try again.');
     }
   };
 
@@ -82,7 +87,9 @@ function App() {
           ) : (
             <div className="flex flex-col justify-center items-center gap-4">
               <CircleX className="w-20 h-20 text-red-500" />
-              <p className="text-md font-medium text-center text-stone-900">Error submitting application. Please try again.</p>
+              <p className="text-md font-medium text-center text-stone-900">
+                {errorMessage || 'Error submitting application. Please try again.'}
+              </p>
               <button onClick={() => setOpen(false)} className="bg-stone-900 text-stone-50 hover:bg-stone-900/90 h-10 px-8 py-2">Close</button>
             </div>
           )}
