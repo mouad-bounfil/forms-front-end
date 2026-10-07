@@ -6,7 +6,7 @@ import {
 
 import { CircleCheckBig, Loader2, CircleX } from "lucide-react"
 import { API_BASE_URL } from "./config";
-
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -72,27 +72,29 @@ function App() {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="w-full md:w-[50%] bg-white mx-auto rounded-lg border border-stone-200 shadow-sm overflow-hidden flex flex-col items-center justify-center">
+          <ErrorBoundary>
+            {isSubmitting ? (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <Loader2 className="w-20 h-20 text-green-500 animate-spin" />
 
-          {isSubmitting ? (
-            <div className="flex flex-col justify-center items-center gap-4">
-              <Loader2 className="w-20 h-20 text-green-500 animate-spin" />
-              <p className="text-md font-medium text-center text-stone-900">Submitting your application...</p>
-            </div>
-          ) : isSuccess ? (
-            <div className="flex flex-col justify-center items-center gap-4">
-              <CircleCheckBig className="w-20 h-20 text-green-500" />
-              <p className="text-md font-medium text-center text-stone-900">Your application has been submitted successfully. Thank you for your interest in our company. You will be contacted as soon as possible.</p>
-              <button onClick={() => setOpen(false)} className="bg-stone-900 text-stone-50 hover:bg-stone-900/90 h-10 px-8 py-2">Close</button>
-            </div>
-          ) : (
-            <div className="flex flex-col justify-center items-center gap-4">
-              <CircleX className="w-20 h-20 text-red-500" />
-              <p className="text-md font-medium text-center text-stone-900">
-                {errorMessage || 'Error submitting application. Please try again.'}
-              </p>
-              <button onClick={() => setOpen(false)} className="bg-stone-900 text-stone-50 hover:bg-stone-900/90 h-10 px-8 py-2">Close</button>
-            </div>
-          )}
+
+              </div>
+            ) : isSuccess ? (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <CircleCheckBig className="w-20 h-20 text-green-500" />
+                <p className="text-md font-medium text-center text-stone-900">Your application has been submitted successfully. Thank you for your interest in our company. You will be contacted as soon as possible.</p>
+                <button onClick={() => setOpen(false)} className="bg-stone-900 text-stone-50 hover:bg-stone-900/90 h-10 px-8 py-2">Close</button>
+              </div>
+            ) : (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <CircleX className="w-20 h-20 text-red-500" />
+                <p className="text-md font-medium text-center text-stone-900">
+                  {errorMessage || 'Error submitting application. Please try again.'}
+                </p>
+                <button onClick={() => setOpen(false)} className="bg-stone-900 text-stone-50 hover:bg-stone-900/90 h-10 px-8 py-2">Close</button>
+              </div>
+            )}
+          </ErrorBoundary>
         </DialogContent>
       </Dialog>
 
