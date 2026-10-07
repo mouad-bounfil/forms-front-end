@@ -1,16 +1,9 @@
 import { useState } from 'react';
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+  DialogContent
 } from "./components/ui/DrawerDialog";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./components/ui/accordion/accordion"
+
 import { CircleCheckBig, Loader2, CircleX } from "lucide-react"
 import { API_BASE_URL } from "./config";
 
